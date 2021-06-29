@@ -1,5 +1,4 @@
 module.exports = app => {
-    app.get('/', (req, res) => {
-        return res.send('Welcome to dextboard-t server');
-    });
+    const home = require('../controllers/home.controller')
+    app.get('/', home.get);
 }
