@@ -7,7 +7,7 @@ const User = function (user) {
     this.type = user.type;
 }
 
-const sql = require("mysql")
+const sql = require("./db.js")
 
 User.create = (newUser, result) => {
     sql.query("INSERT INTO users SET ?", newUser,
