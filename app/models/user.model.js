@@ -1,13 +1,15 @@
+const sql = require("./db.js")
+const moment = require('moment')
+
+
 // constructor
 const User = function (user) {
-    this.firstname = user.firstname;
-    this.lastname = user.lastname;
+    this.name = user.name
     this.email = user.email;
-    this.password = user.password;
-    this.type = user.type;
+    this.dateRegistered = moment().unix();
 }
 
-const sql = require("./db.js")
+
 
 User.create = (newUser, result) => {
     sql.query("INSERT INTO users SET ?", newUser,
@@ -23,7 +25,7 @@ User.create = (newUser, result) => {
         })
 };
 
-User.findById = (userId, resuslt) => {
+User.findById = (userId, result) => {
     sql.query(`SELECT * FROM users WHERE id = ${userId}`,
         (err, res) => {
             if (err) {
