@@ -91,3 +91,22 @@ exports.update = (request, response) => {
         }
     )
 }
+
+// delete a course with the specified courseId in the request
+exports.delete = (request, response) => {
+    Course.remove(request.params.id, (error, data) => {
+        if(error){
+            if(error.kind === "not_found"){
+                response.status(404).send({
+                    message: `could not find course with id ${request.params.id}`
+                })
+            } else {
+                response.status(500).send({
+                    message: `could not delete course with id ${request.params.id}`
+                })
+            }
+        } else {
+            response.send({message: `course was deleted successfully!`})
+        }
+    })
+}
