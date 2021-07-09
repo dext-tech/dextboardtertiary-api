@@ -43,15 +43,15 @@ exports.findAll = (request, response) => {
 
 // find a single user with a userid
 exports.findOne = (request, response) => {
-    User.findById(request.params.userid, (error, data) =>{
+    User.findById(request.params.id, (error, data) =>{
         if(error){
             if(error.kind==="not_found"){
                 response.status(404).send({
-                    message: `Could not find user with id ${request.params.userid}`
+                    message: `Could not find user with id ${request.params.id}`
                 })
             } else {
                 response.status(500).send({
-                    message: `Error finding user with id ${request.params.userid}`
+                    message: `Error finding user with id ${request.params.id}`
                 })
             }
         } else {
@@ -71,17 +71,17 @@ exports.update = (request, response) => {
     }
 
     User.updateById(
-        request.params.userid,
+        request.params.id,
         new User(request.body),
         (error, data)=>{
             if(error){
                 if(error.kind === "not_found"){
                     response.status(404).send({
-                        message: `could not find user with id ${request.params.userid}`
+                        message: `could not find user with id ${request.params.id}`
                     })
                 } else {
                     response.status(500).send({
-                        message: `Error updating user with id ${request.params.userid}`
+                        message: `Error updating user with id ${request.params.id}`
                     })
                 }
             } else {
@@ -94,20 +94,20 @@ exports.update = (request, response) => {
 // delete a user with the specified userid in the request
 exports.delete = (request, response) => {
 
-    User.remove(request.params.userid, (error, data)=>{
+    User.remove(request.params.id, (error, data)=>{
         if(error){
             if(error.kind === "not_found"){
                 response.status(404).send({
-                    message: `could not user with id ${request.params.userid}`
+                    message: `could not user with id ${request.params.id}`
                 })
             } else {
                 response.status(500).send({
-                    message: `could not delete user with id ${request.params.userid}`
+                    message: `could not delete user with id ${request.params.id}`
                 })
             }
         } else {
             response.send({message: `user was deleted successfully!`})
         }
     })
-    
+
 }
