@@ -98,7 +98,7 @@ exports.delete = (request, response) => {
         if(error){
             if(error.kind === "not_found"){
                 response.status(404).send({
-                    message: `could not user with id ${request.params.id}`
+                    message: `could not find user with id ${request.params.id}`
                 })
             } else {
                 response.status(500).send({
