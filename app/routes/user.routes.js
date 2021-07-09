@@ -4,10 +4,10 @@ module.exports = app => {
     // Create a new user
     app.post("/users", users.create);
 
-    // retreive all users
+    // retrieve all users
     app.get("/users", users.findAll);
 
-    // retrieve a single customer with userid
+    // retrieve a single user with userid
     app.get("/users/:id", users.findOne);
 
     // update a user with userid
