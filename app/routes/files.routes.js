@@ -2,7 +2,7 @@ module.exports = app => {
     const files = require("../controllers/files.controller.js")
 
     // upload a new file
-    app.post("/files", files.upload);
+    app.post("/files", files.uploadOne);
 
     // retrieve all file records
     app.get("/files", files.findAll);
