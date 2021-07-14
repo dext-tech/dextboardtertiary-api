@@ -91,3 +91,22 @@ exports.update = (request, response) => {
         }
     )
 }
+
+// delete a lesson with the specified lessionid in the request
+exports.delete = (request, response) => {
+    Lesson.remove(request.params.id, (error, data) => {
+        if(error){
+            if(error.kind === "not_found"){
+                response.status(404).send({
+                    message: "could not find lesson with id " + request.params.id
+                })
+            } else {
+                response.status(500).send({
+                    message: "could not delete lesson with id " + request.params.id
+                })
+            }
+        } else {
+            response.send({message: "lesson was deleted successfully"})
+        }
+    })
+}
