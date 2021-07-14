@@ -20,11 +20,13 @@ const HomeRouter = require('./app/routes/home.routes');
 const UserRouter = require('./app/routes/user.routes');
 const CourseRouter = require('./app/routes/course.routes');
 const FilesRouter = require('./app/routes/files.routes');
+const LessonsRouter = require('./app/routes/lessons.routes');
 
 HomeRouter(app);
 UserRouter(app);
 CourseRouter(app);
 FilesRouter(app);
+LessonsRouter(app);
 
 app.listen(port, () => {
     console.log(`dbt server is running on localhost:${port}`);
