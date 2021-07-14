@@ -2,6 +2,7 @@ const express = require('express')
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const morgan = require('morgan');
+const myIp = require('./net/net');
 
 const app = express();
 
@@ -29,5 +30,5 @@ FilesRouter(app);
 LessonsRouter(app);
 
 app.listen(port, () => {
-    console.log(`dbt server is running on localhost:${port}`);
+    console.log(`dbt server is running on ${myIp}:${port}`);
 })
