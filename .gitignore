@@ -1,2 +1,4 @@
 /node_modules/
 /drive/
+/app/config/db.config.js
+/app/config/db.lock
