@@ -14,8 +14,7 @@ exports.create = (request, response) => {
         first_name: request.body.first_name,
         last_name: request.body.last_name,
         email: request.body.email,
-        password: request.body.password,
-        token: request.body.token
+        password: request.body.password
     })
 
     // save user in the database
@@ -94,8 +93,7 @@ exports.authRegister = (newUser) => {
         first_name: newUser.first_name,
         last_name: newUser.last_name,
         email: newUser.email,
-        password: newUser.password,
-        token: newUser.token
+        password: newUser.password
     })
 
     // save user in the database

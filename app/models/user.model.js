@@ -8,7 +8,6 @@ const User = function(user){
     this.last_name = user.last_name
     this.email = user.email
     this.password = user.password
-    this.token = user.token
 }
 
 User.create = (user, result) => {
