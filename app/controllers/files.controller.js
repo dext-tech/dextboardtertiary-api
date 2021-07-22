@@ -1,5 +1,11 @@
 const Files = require("../models/files.model")
 const lodash = require('lodash');
+const moment = require('moment');
+
+const getExt = (str) => {
+    const arr = str.split('.')
+    return arr[arr.length-1]
+}
 
 exports.uploadOne = async(request, response) => {
     try{
@@ -12,7 +18,21 @@ exports.uploadOne = async(request, response) => {
             let doc = request.files.doc;
 
             // use the mv() method to place the file in upload directory (i.e. 'drive')
-            doc.mv('./drive/' + doc.name);
+            const fileLocation = '/drive/' + doc.name;
+            doc.mv(fileLocation);
+
+
+
+            const mFile = new Files({
+                fileid: doc.name,
+                filename: doc.name,
+                extension: getExt(doc.name),
+                fileSize: doc.size,
+                fileUrl: fileLocation,
+                owner: request.body.owner,
+                createdAt: moment().unix()
+
+            })
 
             response.status(200).send({
                 status: true,

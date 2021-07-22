@@ -19,13 +19,13 @@ app.use(cors({origin:`http://localhost:${API_PORT}`}))
 
 
 const HomeRouter = require('./app/routes/home.routes');
-const UserRouter = require('./app/routes/user.routes');
+const LecturerRouter = require('./app/routes/lecturer.routes');
 const CourseRouter = require('./app/routes/course.routes');
 const FilesRouter = require('./app/routes/files.routes');
 const LessonsRouter = require('./app/routes/lessons.routes');
 
 HomeRouter(app);
-UserRouter(app);
+LecturerRouter(app);
 CourseRouter(app);
 FilesRouter(app);
 LessonsRouter(app);
@@ -33,3 +33,5 @@ LessonsRouter(app);
 app.listen(API_PORT, () => {
     console.log(`dbt server is running on ${myIp}:${API_PORT}`);
 })
+
+// TODO implement migration https://itnext.io/updating-an-sql-database-schema-using-node-js-6c58173a455a

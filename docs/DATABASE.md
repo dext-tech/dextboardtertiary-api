@@ -5,7 +5,7 @@
 - courses
 - files
 - lessons
-- users
+- lecturers
 
 ### Courses
 
@@ -34,7 +34,7 @@
 - venueId : INT
 - status : INT
 
-### Users
+### Lecturers
 
 - id 🔑 : auto-increment : INT
 - name : STRING

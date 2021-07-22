@@ -54,7 +54,7 @@ Course.getAll = result => {
                 result(null, err);
                 return
             }
-            console.log("users: ", res)
+            console.log("courses: ", res)
             result(null, res)
         }
     )

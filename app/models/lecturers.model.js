@@ -1,18 +1,19 @@
 const sql = require("./db.js")
 const moment = require('moment')
 
+// TODO : update documentation, converting old user to lecturer
 
 // constructor
-const User = function (user) {
-    this.name = user.name
-    this.email = user.email;
+const Lecturer = function (lecturer) {
+    this.name = lecturer.name
+    this.email = lecturer.email;
     this.dateRegistered = moment().unix();
 }
 
 
 
-User.create = (newUser, result) => {
-    sql.query("INSERT INTO users SET ?", newUser,
+Lecturer.create = (newLecturer, result) => {
+    sql.query("INSERT INTO lecturer SET ?", newLecurer,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -20,13 +21,13 @@ User.create = (newUser, result) => {
                 return;
             }
 
-            console.log("create user: ", { id: res.insertId, ...newUser });
-            result(null, { id: res.insertId, ...newUser });
+            console.log("create lecturer: ", { id: res.insertId, ...newLecturer });
+            result(null, { id: res.insertId, ...newLecturer });
         })
 };
 
-User.findById = (id, result) => {
-    sql.query(`SELECT * FROM users WHERE id = ${id}`,
+Lecturer.findById = (id, result) => {
+    sql.query(`SELECT * FROM lecturers WHERE id = ${id}`,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -35,32 +36,32 @@ User.findById = (id, result) => {
             }
 
             if (res.length) {
-                console.log("found user: ", res[0]);
+                console.log("found lecturer: ", res[0]);
                 result(null, res[0]);
                 return;
             }
 
-            // not found user with the id
+            // not found lecturer with the id
             result({ kind: "not_found" }, null);
         })
 }
 
-User.getAll = result => {
-    sql.query("SELECT * FROM users",
+Lecturer.getAll = result => {
+    sql.query("SELECT * FROM lecturers",
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
                 return
             }
-            console.log("users: ", res)
+            console.log("lecturers: ", res)
             result(null, res)
         })
 }
 
-User.updateById = (id, user, result) => {
-    sql.query("UPDATE users SET name = ?, email = ? WHERE id = ? ",
-        [user.name, user.email, id],
+Lecturer.updateById = (id, lecturer, result) => {
+    sql.query("UPDATE lecturers SET name = ?, email = ? WHERE id = ? ",
+        [lecturer.name, lecturer.email, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -69,19 +70,19 @@ User.updateById = (id, user, result) => {
             }
 
             if (res.affectedRows == 0) {
-                // not found user with the id
+                // not found lecturer with the id
                 result({ kind: "not_found" }, null);
                 return;
             }
 
-            console.log("updated user: ", { id: id, ...user });
-            result(null, { id: id, ...user });
+            console.log("updated lecturer: ", { id: id, ...lecturer });
+            result(null, { id: id, ...lecturer });
         }
     )
 }
 
-User.remove = (id, result) => {
-    sql.query("DELETE FROM users WHERE id = ?", id,
+Lecturer.remove = (id, result) => {
+    sql.query("DELETE FROM lecturers WHERE id = ?", id,
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -90,15 +91,15 @@ User.remove = (id, result) => {
             }
 
             if (res.affectedRows == 0) {
-                // not found user with the id
+                // not found lecturer with the id
                 result({ kind: "not_found" }, null);
                 return;
             }
 
-            console.log("deleted user with id: ", id);
+            console.log("deleted lecturer with id: ", id);
             result(null, res);
         });
 }
 
-module.exports = User;
+module.exports = Lecturer;
 

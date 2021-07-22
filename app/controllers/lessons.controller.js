@@ -44,7 +44,7 @@ exports.findAll = (request, response) => {
     })
 }
 
-// find a single lesson with a userid
+// find a single lesson with a lecturerid
 exports.findOne = (request, response) => {
     Lesson.findById(request.params.id, (error, data) => {
         if(error){
@@ -82,7 +82,7 @@ exports.update = (request, response) => {
                     })
                 } else {
                     response.status(500).send({
-                        message: "error updating user with id " + request.params.id
+                        message: "error updating lesson with id " + request.params.id
                     })
                 }
             } else {

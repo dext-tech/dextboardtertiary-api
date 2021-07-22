@@ -1,6 +1,6 @@
-const User = require("../models/user.model.js")
+const Lecturer = require("../models/lecturers.model.js")
 
-// create and save a new user
+// create and save a new lecturer
 exports.create = (request, response) => {
     // validate request
     if (!request.body) {
@@ -9,17 +9,17 @@ exports.create = (request, response) => {
         })
     }
 
-    // create a user
-    const user = new User({
+    // create a lecturer
+    const lecturer = new Lecturer({
         name: request.body.name,
         email: request.body.email
     });
 
-    // save user in the dtabase
-    User.create(user, (err, data) => {
+    // save lecturer in the dtabase
+    Lecturer.create(lecturer, (err, data) => {
         if (err) {
             response.status(500).send({
-                message: err.message || "some error occurred while creating the user"
+                message: err.message || "some error occurred while creating the lecturer"
             })
         } else {
             response.send(data)
@@ -27,12 +27,12 @@ exports.create = (request, response) => {
     })
 }
 
-// find all users
+// find all lecturers
 exports.findAll = (request, response) => {
-    User.getAll((err, data) => {
+    Lecturer.getAll((err, data) => {
         if(err){
             response.status(500).send({
-                message: err.message || "Some error occurred while retrieving users"
+                message: err.message || "Some error occurred while retrieving lecturers"
             })
         } else {
             response.send(data);
@@ -41,17 +41,17 @@ exports.findAll = (request, response) => {
 
 }
 
-// find a single user with a userid
+// find a single lecturer with a lecturerid
 exports.findOne = (request, response) => {
-    User.findById(request.params.id, (error, data) =>{
+    Lecturer.findById(request.params.id, (error, data) =>{
         if(error){
             if(error.kind==="not_found"){
                 response.status(404).send({
-                    message: `Could not find user with id ${request.params.id}`
+                    message: `Could not find lecturer with id ${request.params.id}`
                 })
             } else {
                 response.status(500).send({
-                    message: `Error finding user with id ${request.params.id}`
+                    message: `Error finding lecturer with id ${request.params.id}`
                 })
             }
         } else {
@@ -60,7 +60,7 @@ exports.findOne = (request, response) => {
     })
 }
 
-// update a user identified by the userid in the request
+// update a lecturer identified by the lecturerid in the request
 exports.update = (request, response) => {
 
     // validate request
@@ -70,18 +70,18 @@ exports.update = (request, response) => {
         })
     }
 
-    User.updateById(
+    Lecturer.updateById(
         request.params.id,
-        new User(request.body),
+        new Lecturer(request.body),
         (error, data)=>{
             if(error){
                 if(error.kind === "not_found"){
                     response.status(404).send({
-                        message: `could not find user with id ${request.params.id}`
+                        message: `could not find lecturer with id ${request.params.id}`
                     })
                 } else {
                     response.status(500).send({
-                        message: `Error updating user with id ${request.params.id}`
+                        message: `Error updating lecturer with id ${request.params.id}`
                     })
                 }
             } else {
@@ -91,22 +91,22 @@ exports.update = (request, response) => {
     )
 }
 
-// delete a user with the specified userid in the request
+// delete a lecturer with the specified lecturerid in the request
 exports.delete = (request, response) => {
 
-    User.remove(request.params.id, (error, data)=>{
+    Lecturer.remove(request.params.id, (error, data)=>{
         if(error){
             if(error.kind === "not_found"){
                 response.status(404).send({
-                    message: `could not find user with id ${request.params.id}`
+                    message: `could not find lecturer with id ${request.params.id}`
                 })
             } else {
                 response.status(500).send({
-                    message: `could not delete user with id ${request.params.id}`
+                    message: `could not delete lecturer with id ${request.params.id}`
                 })
             }
         } else {
-            response.send({message: `user was deleted successfully!`})
+            response.send({message: `lecturer was deleted successfully!`})
         }
     })
 
