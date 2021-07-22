@@ -46,7 +46,7 @@ User.findById = (id, result) => {
 }
 
 User.findByEmail = (email, result) => {
-    sql.query("SELECT * FROM users WHERE email = " + email,
+    sql.query(`SELECT * FROM users WHERE email = "{$email}"`,
         (err, res) => {
             if(err){
                 console.log("error: ", err)

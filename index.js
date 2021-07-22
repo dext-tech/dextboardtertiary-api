@@ -23,12 +23,16 @@ const LecturerRouter = require('./app/routes/lecturer.routes');
 const CourseRouter = require('./app/routes/course.routes');
 const FilesRouter = require('./app/routes/files.routes');
 const LessonsRouter = require('./app/routes/lessons.routes');
+const AuthRouter = require('./app/routes/auth.routes');
+const UserRouter = require('./app/routes/users.routes');
 
 HomeRouter(app);
 LecturerRouter(app);
 CourseRouter(app);
 FilesRouter(app);
 LessonsRouter(app);
+UserRouter(app);
+AuthRouter(app);
 
 app.listen(API_PORT, () => {
     console.log(`dbt server is running on ${myIp}:${API_PORT}`);

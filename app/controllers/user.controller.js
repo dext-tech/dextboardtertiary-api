@@ -62,20 +62,50 @@ exports.findOne = (request, response) => {
     })
 }
 
-exports.findByEmail = (request, response) => {
-    User.findByEmail(request.params.email, (error, data) => {
+exports.authfindOne = (email) => {
+    User.findByEmail(email, (error, data) => {
         if(error){
             if(error.kind === "not_found"){
-                response.status(404).send({
-                    message: `Could not find user with email ${request.params.email}`
+                return ({
+                    message: `Could not find user with email ${email}`
                 })
             } else {
-                response.status(500).send({
-                    message: `error finding user with email ${request.params.email}`
+                return ({
+                    message: `error finding user with email ${email}`
                 })
             }
         } else {
-            response.send(data)
+            return data;
+        }
+    })
+}
+
+// create and save a new user
+exports.authRegister = (newUser) => {
+    // validate request
+    if(!newUser){
+        return({
+            message: "content cannot be empty!"
+        })
+    }
+
+    // create a user
+    const user = new User({
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email: newUser.email,
+        password: newUser.password,
+        token: newUser.token
+    })
+
+    // save user in the database
+    User.create(user, (err, data)=>{
+        if(err){
+            return({
+                message: err.message || "some error occurred while creating the user"
+            })
+        } else {
+            return data
         }
     })
 }
