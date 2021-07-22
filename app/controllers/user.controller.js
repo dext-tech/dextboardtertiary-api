@@ -107,24 +107,25 @@ exports.update = (request, response) => {
             }
         }
     )
-
-    // delete a user with the specified userid in the request
-    exports.delete = (request, response) => {
-        User.remove(request.params.id, (error, data) => {
-            if(error){
-                if(error.kind === "not_found"){
-                    response.status(404).send({
-                        message: "could not find user with id " + request.params.id
-                    })
-                } else {
-                    response.status(500).send({
-                        message: "could not delete user with id " + request.params.id
-                    })
-                }
-            } else {
-                response.send({message: "user was delete successfully"})
-            }
-        })
-    }
 }
+
+// delete a user with the specified userid in the request
+exports.delete = (request, response) => {
+    User.remove(request.params.id, (error, data) => {
+        if(error){
+            if(error.kind === "not_found"){
+                response.status(404).send({
+                    message: "could not find user with id " + request.params.id
+                })
+            } else {
+                response.status(500).send({
+                    message: "could not delete user with id " + request.params.id
+                })
+            }
+        } else {
+            response.send({message: "user was delete successfully"})
+        }
+    })
+}
+
 
