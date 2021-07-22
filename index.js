@@ -1,3 +1,5 @@
+// const { API_PORT } = require('dotenv').config;
+
 const express = require('express')
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
@@ -6,15 +8,14 @@ const myIp = require('./net/net');
 
 const app = express();
 
-// set port, listen for requests
-const port = 3000;
+const API_PORT = require('dotenv').config().parsed.API_PORT;
 
 // set up middleware
 app.use(express.json());
 app.use(fileUpload({createParentPath:true}));
 app.use(express.urlencoded({extended: true}))
 app.use(morgan('dev'))
-app.use(cors({origin:`http://localhost:${port}`}))
+app.use(cors({origin:`http://localhost:${API_PORT}`}))
 
 
 const HomeRouter = require('./app/routes/home.routes');
@@ -29,6 +30,6 @@ CourseRouter(app);
 FilesRouter(app);
 LessonsRouter(app);
 
-app.listen(port, () => {
-    console.log(`dbt server is running on ${myIp}:${port}`);
+app.listen(API_PORT, () => {
+    console.log(`dbt server is running on ${myIp}:${API_PORT}`);
 })
