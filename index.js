@@ -1,5 +1,4 @@
-// const { API_PORT } = require('dotenv').config;
-
+require('dotenv').config()
 const express = require('express')
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
@@ -8,7 +7,7 @@ const myIp = require('./net/net');
 
 const app = express();
 
-const API_PORT = require('dotenv').config().parsed.API_PORT;
+const { API_PORT } = process.env;
 
 // set up middleware
 app.use(express.json());
