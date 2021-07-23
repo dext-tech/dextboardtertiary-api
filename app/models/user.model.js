@@ -25,6 +25,21 @@ User.create = (user, result) => {
     )
 }   
 
+User.registerUser = (user) => {
+    return new Promise((resolve, reject)=>{
+        const queryString = "INSERT INTO users SET ?";
+        sql.query(queryString, user, (err, res)=>{
+            if(err){
+                console.log("error: ", err)
+                return reject(err);
+            }
+            console.log("create user: ", {id: res.insertId, ... user});
+            resolve({id: res.insertId, ... user})
+        })
+    })    
+}
+
+
 User.findById = (id, result) => {
     sql.query("SELECT * FROM users WHERE id = " + id,
         (err, res) => {
@@ -44,24 +59,26 @@ User.findById = (id, result) => {
     )
 }
 
-User.findByEmail = (email, result) => {
-    sql.query(`SELECT * FROM users WHERE email = "{$email}"`,
-        (err, res) => {
-            if(err){
-                console.log("error: ", err)
-                result(err, null)
-                return
-            }
-            if(res.length){
-                console.log("found user: ", res[0])
-                result(null, res[0])
-                return
-            }
+User.findByEmail = (email) => {
 
-            result({ kind: "not_found" }, null)
-        }
-    )
+    return new Promise((resolve, reject)=>{
+        const queryString = "SELECT * FROM users WHERE email = \"" + email + "\"";
+        sql.query(queryString, (err, data)=>{
+            if(err){
+                return reject(err);
+            }
+            if(data.length){
+                console.log(data)
+                resolve(data[0])
+            } else {
+                resolve(null)
+            }
+        })
+    })
+
 }
+
+
 
 User.getAll = result => {
     sql.query("SELECT * FROM users",

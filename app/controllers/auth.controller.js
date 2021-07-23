@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 const env = require('dotenv').config().parsed;
 const moment = require('moment')
 
-const users = require("../controllers/user.controller.js")
+const usermodel = require("../models/user.model.js")
 
 
 // TODO if only the admin can register, then you don't need to generate a jwt on register for a user
@@ -37,7 +37,7 @@ exports.register = async(req, res) => {
 
         // check if user already exists
         // validate if user exists in our database
-        const oldUser = await users.authfindOne(email)
+        const oldUser = await usermodel.findByEmail(email)
 
         if(oldUser){
             return res.status(409).send("User already exists. please login")
@@ -46,24 +46,23 @@ exports.register = async(req, res) => {
         // encrypt user password
         const encryptedPassword = await bcrypt.hash(password, 10)
 
-        // // create token
-        // const token = jwt.sign(
-        //     { "email":email },
-        //     env.TOKEN_KEY
-        // );
-
-
         // create user in our database
-        const user = await users.authRegister({
+        const user = await usermodel.registerUser({
             first_name,
             last_name,
             email: email.toLowerCase(),
             password: encryptedPassword
         })
 
-        // return new user
-        // res.status(201).json({ user, "token" : token });
-        res.status(201).json(user);
+        // return the new user
+        res.status(201).json({
+            "user": {
+                "id" : user.id,
+                "first_name" : user.first_name,
+                "last_name": user.last_name,
+                "email" : user.email,
+            }
+        });
 
     } catch (err){
         console.log(err)
@@ -71,11 +70,8 @@ exports.register = async(req, res) => {
 
 }
 
-exports.login = async(req, res) => {
+exports.login = async (req, res) => {
     // login
-
-    console.log(req.body)
-    console.log("logging in")
 
     try{
         // get user input
@@ -84,27 +80,43 @@ exports.login = async(req, res) => {
         // validate user input
         if(!(email && password)){
             res.status(400).send("all input is required")
+            return
+        }
+    
+        // validate if user exists in our database
+        const user = await usermodel.findByEmail(email)
+
+        if(user.password == undefined){
+            res.status(400).send("user not found")
+            return
         }
 
-        // validate if user exists in our database
-        const user = await users.authfindOne(email);
+        const verifyPassword = await bcrypt.compare(password, user.password)
 
-        if(user && (await bcrypt.compare(password, user.password))){
+        if(user && verifyPassword){
             // create token
             const token = jwt.sign(
                 { "email" : email },
                 env.TOKEN_KEY
             )
-        
-            user.token = token;
 
-            res.status(200).json({user, "token" : token})
+            res.status(200).json({
+                "token":token, 
+                "user": {
+                    "id" : user.id,
+                    "first_name" : user.first_name,
+                    "last_name": user.last_name,
+                    "email" : user.email,
+                }
+            })
+            return
         }
 
         res.status(400).send("Invalid Credentials")
 
     } catch (err) {
         console.log(err);
+        res.status(500).send(err)
     }
 }
 
