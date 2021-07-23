@@ -74,6 +74,9 @@ exports.register = async(req, res) => {
 exports.login = async(req, res) => {
     // login
 
+    console.log(req.body)
+    console.log("logging in")
+
     try{
         // get user input
         const { email, password } = req.body;
@@ -84,7 +87,7 @@ exports.login = async(req, res) => {
         }
 
         // validate if user exists in our database
-        const user = await User.authfindOne(email);
+        const user = await users.authfindOne(email);
 
         if(user && (await bcrypt.compare(password, user.password))){
             // create token
